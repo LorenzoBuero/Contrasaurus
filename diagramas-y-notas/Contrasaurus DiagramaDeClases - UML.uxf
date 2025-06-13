@@ -1,0 +1,221 @@
+<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>462</x><y>413</y><w>301</w><h>420</h></coordinates><panel_attributes>Credencial
+--
+(ATRIBUTOS)
+-id: Long
+-sitio: String
+-nombreCuenta: String
+-contra: String
+-tipoDeCifrado: ConfigCifrado
+--
+(GETTERS/SETTERS)
+-getId() : Long
+-setId()
+-getSitio() : String
+-setSitio(String)
+-getNombreCuenta() : String
+-setNombreCuenta(String)
+-getContra() : String
+-setContra(String)
+-getTipoDeCifrado() : ConfigCifrado
+-setTipoDeCifrado()
+-get
++getCredencialCIfradaJson() : String
++getCredencialDescifradaJson() : String
+--
+(CONSTRUCTORES)
++Credencial(String, String, String, ConfigCifrado)
++Credencial(int, String, String, String, ConfigCifrado) 
+--
+(METODOS)
+-ObtenerCredencialCifrada(): ArrayList(String)
+-ConvertirAJSON(ArrayList(String)):
+-CambiarSitio(String) : boolean
+-CambiarSitio(String, ETipoDeCifrado) : boolean
+-CambiarNombreCuenta(String) : boolean
+-CambiarNombreCuenta(String, ETipoDeCifrado) : boolean
+-CambiarContra(String) : boolean
+-CambiarContra(String, ETipoDeCifrado) : boolean
+-ObtenerCredencialCifrada(Credencial) : Credencial
+-ObtenerCredencialDescifrada(Credencial) : Credencial
++CompararAOtraCredencialIgnorandoID(Credencial) : Boolean
++CompararAOtraCredencialContandoID(Credencial) : Boolean
+
+
+
+
+
+
+
+//cifrado: tanto los sitios, como los nombres de las cuentas, como las contraseñas pueden estar cifrados. esto se indica con un objeto ConfigCifrado, que usa valores del ENUM ETipoCifrado para representar los distintos niveles de cifrado
+//si hay una n significa que no esta cifrado, si hay una p, usa el cifrado personalizado, si es una x usa el cifrado extremo, alguna libreria confiable para cifrar, como SHA256 
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>882</x><y>455</y><w>259</w><h>238</h></coordinates><panel_attributes>ConfigCifrado
+--
+(ATRIBUTOS)
+-cifradoSitio : ETipoCifrado
+-cifradoCuenta : ETipoCifrado
+-cifradoContra : ETipoCifrado
+--
+(GETTERS/SETTERS)
+-setCifradoSitio(ETipoCifrado)
++getCifradoSitio() : ETipoCifrado
+-setCifradoNombreCuenta(ETipoCifrado)
++getCifradoNombreCuenta() : ETipoCifrado
+-setCifradoContra(ETipoCifrado)
++getCifradoContra() : ETipoCifrado
+--
+(CONSTRUCTOR)
+ConfigCifrado(ETipoCifrado, ETipoCifrado, ETipoCifrado)
+--
+(METODOS)
++cambiarCifradoSitio(ETipoCifrado) : boolean
++cambiarCifradoNombreCuenta(ETipoCifrado) : boolean
++cambiarCifradoSitio(ETipoCifrado) : boolean
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>455</y><w>140</w><h>49</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;50</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>455</y><w>140</w><h>154</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>455</y><w>140</w><h>196</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;260</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1246</x><y>476</y><w>147</w><h>133</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
+ETipoCifrado
+--
+(TIPOS)
++SinCifrar
++Personalizado
++SuperSHA256</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>147</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1211</x><y>728</y><w>182</w><h>175</h></coordinates><panel_attributes>/AbstractClass/
+Cifrador
+--
+(ATRIBUTOS)
++/(CONST)TipoCifrado : ETipoCifrado/
+
+--
+(GET/SET)
++/getTipoCifrado(): ETipoCifrado/
+--
+(CONSTRUCTOR)
++/Cifrador()/
+--
+(METODOS)
++/Cifrar(Credencial) : Credencial/
++/Descifrar(Credemcial) : Credencial/
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1078</x><y>896</y><w>154</w><h>119</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;150;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1463</x><y>987</y><w>182</w><h>133</h></coordinates><panel_attributes>SuperCifradoSHA256
+--
+-(CONST)TipoCifrado : ETipoCifrado.SuperSHA256
+--
+(CONSTRUCTOR)
++SuperCifradoSHA256()
+--
+(METODOS)
+-CifrarString(String):String
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1232</x><y>1008</y><w>182</w><h>133</h></coordinates><panel_attributes>CifradoPersonalizado
+--
+(ATRIBUTOS)
+-(CONST)TipoCifrado : ETipoCifrado.Personalizado
+--
+(CONSTRUCTOR)
++CifradoPersonalizado()
+--
+(METODOS)
+-ObtenerCifradoPersonalizado(String):String
+-CifrarString(String):String
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>980</x><y>1001</y><w>182</w><h>133</h></coordinates><panel_attributes>SinCifrar
+--
+(ATRIBUTO)
+-(CONST)TipoCifrado : ETipoCifrado.SinCifrar
+--
+(CONSTRUCTOR)
++SinCifrar()
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1309</x><y>896</y><w>21</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;160;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1379</x><y>896</y><w>119</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>150;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>742</y><w>154</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;10;10;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>896</x><y>742</y><w>175</w><h>77</h></coordinates><panel_attributes>_FabricaCifrador_
+--
+CrearCifrador(ETipoCifrado) : Cifrador
+--</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1064</x><y>735</y><w>161</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+en realidad no apunta a la clase
+cifrador sino a sus hijos</panel_attributes><additional_attributes>210;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1302</x><y>602</y><w>21</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;180</additional_attributes></element><element><id>UMLClass</id><coordinates><x>161</x><y>245</y><w>217</w><h>322</h></coordinates><panel_attributes>_main_
+//public static void function main() xd
+--
+(VARIABLES)
+-ubicacionContraseñaApp:String
+-ubicacionCredenciales:String
+-nombreUsuario: String
+--
+(GET/SET)
+-getUbicacionContraseñaApp():String
+-getUbicacionCredenciales():String
+-getNombreUsuario(): String
+-setUbicacionContraseñaApp(String)
+-setNbicacionCredenciales(String)
+-setNombreUsuario(String)
+--
+(FUNCIONES)
+-VerificarCondiciones()
+//verifica que exista un usuario con contraseña
+-VerificarUsuarioOCrearUsuario() : boolean
+-CrearUsuario()
+-IniciarApp()
+-MenuPrincipal()
+-MenuOpciones()
+-SalirAPP()
+-MenuAdministracionCcredenciales()
+-CrearCredencial(String, String, String, ConfigCifrado) : Contraseña
+-BuscarCredencial(String) : void
+-EditarCredencial(String, String)
+-EliminarCredencial(String, String)
+-SeleccionarUnaCredencialDeVarias(String) : Credencial
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>854</x><y>259</y><w>182</w><h>70</h></coordinates><panel_attributes>&lt;&lt;Error&gt;&gt;
+ErrorMuchasCredencialesAEliminar
+--
+(CONSTRUCTORES)
+ErrorMuchasCredencialesAEliminar()
+ErrorMuchasCredencialesAEliminar(String)
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>728</x><y>210</y><w>140</w><h>77</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;90;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>182</x><y>77</y><w>210</w><h>84</h></coordinates><panel_attributes>_VerificadorContraseñaApp_
+--
+(METODOS)
+-PedirContraseñaConsola() : String
+-PedirUsuarioConsola():String
+-CompararUsuarioYContraseña(String, String) : boolean
++PedirYVerificarContraseña(String):boolean
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>238</x><y>154</y><w>21</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>140</y><w>126</w><h>112</h></coordinates><panel_attributes>&lt;&lt;Error&gt;&gt;
+ErrorProcesoCancelado
+--
+(CONSTRUCTORES)
+ErrorProcesoCancelado()
+ErrorProcesoCancelado(String)</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>119</x><y>119</y><w>77</w><h>42</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;40;90;10</additional_attributes></element><element><id>Relation</id><coordinates><x>119</x><y>203</y><w>63</w><h>63</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;70;70</additional_attributes></element><element><id>UMLClass</id><coordinates><x>455</x><y>0</y><w>280</w><h>343</h></coordinates><panel_attributes>AdministradorDePersistencia
+--
+(ATRIBUTOS)
+-(CONST)ubicacionJSON:String
+--
+(GET/SET)
+-getUbicacionJSON() : String
+--
+(CONSTRUCTOR)
++AdministradorDePersistencia(String)
+--
+(METODOS)
++AgregarCredencialAlJSON(Credencial)
++ObtenerCredencialesBuscadas(String) : ArrayList(Credencial)
++ActualizarUnaCredencial(Credencial)
++EliminarUnaCredencial(Credencial)
+
+-CrearJSONSiNoExiste() : boolean
+-EscribirCredencialEnElJSON(String):
+-LeerCredencialesDelJSON() : ArrayList(String)
+-ObtenerCredencialPorID(int) : Credencial
+-ObtenerCredencialesPorSitio(String) : ArrayList(Credencial)
+-ObtenerCredencialesPorSitioYNombre : ArrayList(Credencial)
+-ObtenerCursorACredencialPorID(int) : (int) 
+//ese int es un cursor(una ubicacion en el archivo JSON)
+-EliminarCredencialConCursor(int)
+-EscribirCredencialAConCursor(int)
+-SobreescribirCredencialEnJson(Credencial, Credencial)
+
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>140</y><w>98</w><h>189</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>120;10;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>245</y><w>105</w><h>182</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>130;240;10;10</additional_attributes></element></diagram>
