@@ -72,9 +72,11 @@ public class Credencial {
     {
         ArrayList<String> atributos = new ArrayList<String>();
         
-        atributos.add((String)this.getId());
+        atributos.add(this.getId().toString());
         atributos.add(this.getSitio());
-        atributos
+        atributos.add(this.getNombreCuenta());
+        atributos.add(this.getContra());
+        atributos.add(this.getConfig().toString());
         
         
         return atributos.toArray();
@@ -94,6 +96,8 @@ public class Credencial {
     
     //---------------------------------Constructores--------------------------------------
     
+    //DEBERIA CREAR LA CONFIG ANTES O DEBERIA CREARLA ACÁ, YO CREO QUE ACÁ
+    
     //Credencial ya existente, convertida a objeto, por ende necesita el ID original
     public void Credencial(int id, String sitio, String nombreCuenta, String contra, ConfigCredencial tipoDeCifrado)
     {
@@ -112,6 +116,30 @@ public class Credencial {
         this.setConfig(tipoDeCifrado);
     };
     
+    //este metodo es usado para descifrar los datos de la credencial al crearla
+    private void DescifrarEstaCredencialAlCrear()
+    {
+        //REVISAR PRONTO, HACER DISTINTO??
+        {
+            //ESTE CODIGO DEPENDE DE TENER EL CODIGO DFEL CIFRADOR LISTO
+            Cifrador cifradorSitio = FabricaCifrador(this.getConfig().getCifradoSitio());
+            String sitioDescifrado = cifradorSitio.Descifrar(this.sitio);
+            this.setSitio(sitioDescifrado);
+        }
+        {
+            //ESTE CODIGO DEPENDE DE TENER EL CODIGO DFEL CIFRADOR LISTO
+            Cifrador cifradorNombreCuenta = FabricaCifrador(this.getConfig().getCifradoNombreCuenta());
+            String nombreCuentaDescifrado = cifradorNombreCuenta.Descifrar(this.getNombreCuenta());
+            this.setNombreCuenta(nombreCuentaDescifrado);
+        }
+        {
+            //ESTE CODIGO DEPENDE DE TENER EL CODIGO DFEL CIFRADOR LISTO
+            Cifrador cifradorContra = FabricaCifrador(this.getConfig().getCifradoContra());
+            String contraDescifrada = cifradorContra.Descifrar(this.getContra());
+            this.setContra(contraDescifrada);
+        }
+    
+    }
     
     
     //---------------------METODOS-------------------------
@@ -156,36 +184,10 @@ public class Credencial {
         }*/
         
         
-        return datosCredencial.toString[].class(); //??
+        //return datosCredencial.toString[].class(); //??
     }
     
-    protected String[] ObtenerEstaCredencialEnArray
-   
     
-    //este metodo es usado para descifrar los datos de la credencial al crearla
-    private void DescifrarEstaCredencialAlCrear()
-    {
-        
-        {
-            //ESTE CODIGO DEPENDE DE TENER EL CODIGO DFEL CIFRADOR LISTO
-            Cifrador cifradorSitio = FabricaCifrador(this.getConfig().getCifradoSitio());
-            String sitioDescifrado = cifradorSitio.Descifrar(this.sitio);
-            this.setSitio(sitioDescifrado);
-        }
-        {
-            //ESTE CODIGO DEPENDE DE TENER EL CODIGO DFEL CIFRADOR LISTO
-            Cifrador cifradorNombreCuenta = FabricaCifrador(this.getConfig().getCifradoNombreCuenta());
-            String nombreCuentaDescifrado = cifradorNombreCuenta.Descifrar(this.getNombreCuenta());
-            this.setNombreCuenta(nombreCuentaDescifrado);
-        }
-        {
-            //ESTE CODIGO DEPENDE DE TENER EL CODIGO DFEL CIFRADOR LISTO
-            Cifrador cifradorContra = FabricaCifrador(this.getConfig().getCifradoContra());
-            String contraDescifrada = cifradorContra.Descifrar(this.getContra());
-            this.setContra(contraDescifrada);
-        }
-    
-    }
     
     private String ConvertirAJSON(String[] atributos)
     {
@@ -233,7 +235,7 @@ public class Credencial {
     //----------Overrides
     //@Override
     //no me pide el override
-    protected boolean equals(Credencial credencialComparada)
+    public boolean equals(Credencial credencialComparada)
     {
         boolean sitioIgual = this.getSitio().equals(credencialComparada.getSitio());
         boolean nombreCuentaIgual = this.getNombreCuenta().equals(credencialComparada.getNombreCuenta());
@@ -245,7 +247,7 @@ public class Credencial {
         return esIgual; 
     }
     
-    protected boolean exactlyEquals(Credencial credencialComparada)
+    public boolean exactlyEquals(Credencial credencialComparada)
     {
         boolean esExactamenteIgual = this.getId() == credencialComparada.getId() && this.equals(credencialComparada);
         
