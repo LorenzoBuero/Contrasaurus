@@ -5,22 +5,20 @@
 -sitio: String
 -nombreCuenta: String
 -contra: String
--tipoDeCifrado: ConfigCifrado
+-config: ConfigCredencial
 --
 (GETTERS/SETTERS)
--getId() : Long
--setId()
--getSitio() : String
++getId() : Long
+-setId(Long)
++getSitio() : String
 -setSitio(String)
--getNombreCuenta() : String
++getNombreCuenta() : String
 -setNombreCuenta(String)
--getContra() : String
++getContra() : String
 -setContra(String)
--getTipoDeCifrado() : ConfigCifrado
--setTipoDeCifrado()
--get
++getConfig() : ConfigCredencial
+-setConfig(ConfigCredencial)
 +getCredencialCIfradaJson() : String
-+getCredencialDescifradaJson() : String
 --
 (CONSTRUCTORES)
 +Credencial(String, String, String, ConfigCifrado)
@@ -28,17 +26,18 @@
 --
 (METODOS)
 -ObtenerCredencialCifrada(): ArrayList(String)
--ConvertirAJSON(ArrayList(String)):
--CambiarSitio(String) : boolean
--CambiarSitio(String, ETipoDeCifrado) : boolean
--CambiarNombreCuenta(String) : boolean
--CambiarNombreCuenta(String, ETipoDeCifrado) : boolean
--CambiarContra(String) : boolean
--CambiarContra(String, ETipoDeCifrado) : boolean
--ObtenerCredencialCifrada(Credencial) : Credencial
--ObtenerCredencialDescifrada(Credencial) : Credencial
-+CompararAOtraCredencialIgnorandoID(Credencial) : Boolean
-+CompararAOtraCredencialContandoID(Credencial) : Boolean
+-DescifrarEstaCredencialAlCrear()
+
+//ESTAS COSAS SON INNECESARIAS POR AHORA, SOLO DEBERIA HACER LOS SETTERS PUBLICOS
++ConvertirAJSON(ArrayList(String)):
++CambiarSitio(String) : boolean
++CambiarNombreCuenta(String) : boolean
++CambiarContra(String) : boolean
+
+--
+(OVERRIDES)
++equals(Credencial) : Boolean
++exactlyEquals(Credencial) : Boolean
 
 
 
@@ -51,7 +50,7 @@
 
 
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>882</x><y>455</y><w>259</w><h>238</h></coordinates><panel_attributes>ConfigCifrado
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>882</x><y>455</y><w>259</w><h>238</h></coordinates><panel_attributes>ConfigCredencial
 --
 (ATRIBUTOS)
 -cifradoSitio : ETipoCifrado
@@ -59,81 +58,57 @@
 -cifradoContra : ETipoCifrado
 --
 (GETTERS/SETTERS)
--setCifradoSitio(ETipoCifrado)
++setCifradoSitio(ETipoCifrado)
 +getCifradoSitio() : ETipoCifrado
--setCifradoNombreCuenta(ETipoCifrado)
++setCifradoNombreCuenta(ETipoCifrado)
 +getCifradoNombreCuenta() : ETipoCifrado
--setCifradoContra(ETipoCifrado)
++setCifradoContra(ETipoCifrado)
 +getCifradoContra() : ETipoCifrado
 --
 (CONSTRUCTOR)
-ConfigCifrado(ETipoCifrado, ETipoCifrado, ETipoCifrado)
++ConfigCifrado(ETipoCifrado, ETipoCifrado, ETipoCifrado)
 --
-(METODOS)
-+cambiarCifradoSitio(ETipoCifrado) : boolean
-+cambiarCifradoNombreCuenta(ETipoCifrado) : boolean
-+cambiarCifradoSitio(ETipoCifrado) : boolean
+//(METODOS)
 
+--
+(OVERRIDES)
++toString() : String
 
 </panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>455</y><w>140</w><h>49</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;50</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>455</y><w>140</w><h>154</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;200</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>455</y><w>140</w><h>196</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>180;10;10;260</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1246</x><y>476</y><w>147</w><h>133</h></coordinates><panel_attributes>&lt;&lt;Enum&gt;&gt;
 ETipoCifrado
 --
-(TIPOS)
-+SinCifrar
-+Personalizado
-+SuperSHA256</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>147</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1211</x><y>728</y><w>182</w><h>175</h></coordinates><panel_attributes>/AbstractClass/
-Cifrador
+(VALORES)
+SIN_CIFRAR,
+PERSONALIZADO,
+SUPER_SHA256</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>147</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;190</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>189</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;130</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>476</y><w>126</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>160;10;10;30</additional_attributes></element><element><id>Relation</id><coordinates><x>1078</x><y>868</y><w>182</w><h>147</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;190;240;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1463</x><y>987</y><w>182</w><h>42</h></coordinates><panel_attributes>/SuperCifradoSHA256/
 --
-(ATRIBUTOS)
-+/(CONST)TipoCifrado : ETipoCifrado/
-
---
-(GET/SET)
-+/getTipoCifrado(): ETipoCifrado/
---
-(CONSTRUCTOR)
-+/Cifrador()/
---
-(METODOS)
-+/Cifrar(Credencial) : Credencial/
-+/Descifrar(Credemcial) : Credencial/
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1078</x><y>896</y><w>154</w><h>119</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;150;200;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>1463</x><y>987</y><w>182</w><h>133</h></coordinates><panel_attributes>SuperCifradoSHA256
---
--(CONST)TipoCifrado : ETipoCifrado.SuperSHA256
---
-(CONSTRUCTOR)
-+SuperCifradoSHA256()
---
-(METODOS)
--CifrarString(String):String
 
 
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1232</x><y>1008</y><w>182</w><h>133</h></coordinates><panel_attributes>CifradoPersonalizado
---
-(ATRIBUTOS)
--(CONST)TipoCifrado : ETipoCifrado.Personalizado
---
-(CONSTRUCTOR)
-+CifradoPersonalizado()
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1232</x><y>1008</y><w>182</w><h>133</h></coordinates><panel_attributes>/CifradoPersonalizado/
 --
 (METODOS)
 -ObtenerCifradoPersonalizado(String):String
--CifrarString(String):String
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>980</x><y>1001</y><w>182</w><h>133</h></coordinates><panel_attributes>SinCifrar
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>980</x><y>1001</y><w>182</w><h>112</h></coordinates><panel_attributes>/SinCifrar/
 --
-(ATRIBUTO)
--(CONST)TipoCifrado : ETipoCifrado.SinCifrar
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1309</x><y>868</y><w>21</w><h>154</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;200;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1379</x><y>861</y><w>119</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>150;180;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>742</y><w>154</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;10;10;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>896</x><y>742</y><w>175</w><h>77</h></coordinates><panel_attributes>_CifradorIntermediario_
 --
-(CONSTRUCTOR)
-+SinCifrar()
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1309</x><y>896</y><w>21</w><h>126</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;160;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1379</x><y>896</y><w>119</w><h>105</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>150;130;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>756</x><y>742</y><w>154</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>200;10;10;30</additional_attributes></element><element><id>UMLClass</id><coordinates><x>896</x><y>742</y><w>175</w><h>77</h></coordinates><panel_attributes>_FabricaCifrador_
+(METODOS)
++Cifrar(Credencial)
++Descifrar(Credencial???)
+//la otra opcion es 
+//Descifrar(String)
+//creo que la de string tiene mas sentido
 --
-CrearCifrador(ETipoCifrado) : Cifrador
---</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1064</x><y>735</y><w>161</w><h>35</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
-en realidad no apunta a la clase
-cifrador sino a sus hijos</panel_attributes><additional_attributes>210;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>1302</x><y>602</y><w>21</w><h>140</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;180</additional_attributes></element><element><id>UMLClass</id><coordinates><x>161</x><y>245</y><w>217</w><h>322</h></coordinates><panel_attributes>_main_
+
+
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>1064</x><y>742</y><w>189</w><h>49</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+en realidad no apunta a la interfaz
+cifrador sino a quienes la implementan</panel_attributes><additional_attributes>250;50;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>1302</x><y>602</y><w>21</w><h>161</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;10;10;210</additional_attributes></element><element><id>UMLClass</id><coordinates><x>161</x><y>245</y><w>217</w><h>322</h></coordinates><panel_attributes>_main_
 //public static void function main() xd
 --
 (VARIABLES)
@@ -218,4 +193,12 @@ ErrorProcesoCancelado(String)</panel_attributes><additional_attributes></additio
 
 
 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>140</y><w>98</w><h>189</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>120;10;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>245</y><w>105</w><h>182</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>130;240;10;10</additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>140</y><w>98</w><h>189</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>120;10;10;250</additional_attributes></element><element><id>Relation</id><coordinates><x>371</x><y>245</y><w>105</w><h>182</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>130;240;10;10</additional_attributes></element><element><id>UMLInterface</id><coordinates><x>1232</x><y>756</y><w>154</w><h>119</h></coordinates><panel_attributes>/Interface/
+Cifrador
+--
+(GET/SET)
++/getTipoCifrado(): ETipoCifrado/
+--
+(METODOS)
++/Cifrar(Credencial) : Credencial/
++/Descifrar(Credemcial) : Credencial/</panel_attributes><additional_attributes></additional_attributes></element></diagram>
