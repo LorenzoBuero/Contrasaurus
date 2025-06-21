@@ -10,5 +10,5 @@
 public enum ETipoCifrado {
     SIN_CIFRAR,
     PERSONALIZADO,
-    SUPER_SHA256
+    UNIDIR_SHA256
 }

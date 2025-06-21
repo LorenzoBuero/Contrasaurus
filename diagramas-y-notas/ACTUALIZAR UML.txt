@@ -1,0 +1,15 @@
+agregar cifrado_default a las clases y al enum
+
+editar nombres de cifrado sha256
+
+hacer una clase abstracta que implemente la interfaz de la que hereden 
+todos los cifrados menos SHA??????
+
+Agregar constructor a todos los cifrados y eliminar 
+lo que indica que son estaticos, lo mismo con la interfaz
+
+alterar completamente el manejador de persistencia y la clase Credencial
+ya que no voy a usar JSON sino una base de datos (sqlite) 
+
+modificar comportamiento del verificador de la contraseña
+

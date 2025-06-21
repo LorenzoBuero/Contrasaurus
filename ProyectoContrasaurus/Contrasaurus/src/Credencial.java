@@ -3,13 +3,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 import java.util.ArrayList;
+import java.util.UUID;
 /**
  *
  * @author Lorenzo Buero
  */
 public class Credencial {
     
-    private long id;
+    private String id;
     private String sitio;
     private String nombreCuenta;
     private String contra;
@@ -22,12 +23,12 @@ public class Credencial {
     
     
     
-    protected long getId() {
+    protected String getId() {
         return id;
     }
 
-    private void setId(long id) {
-        this.id = id;
+    private void setId() {
+        this.id = UUID.randomUUID().toString();
     }
 
 
@@ -72,7 +73,7 @@ public class Credencial {
     {
         ArrayList<String> atributos = new ArrayList<String>();
         
-        atributos.add(this.getId().toString());
+        atributos.add(this.getId());
         atributos.add(this.getSitio());
         atributos.add(this.getNombreCuenta());
         atributos.add(this.getContra());
@@ -85,7 +86,7 @@ public class Credencial {
     protected String getCredencialCifradaJSON ()
     {
         Credencial credencialCifrada = this.ObtenerEstaCredencialCifrada();
-        String[] CredencialCifradaEnArrayString = credencialCifrada.ObtenerEnArrayString();
+        String[] credencialCifradaEnArrayString = credencialCifrada.getPropiedadesArrayString();
         String credencialJSON = this.ConvertirAJSON(credencialCifradaEnArrayString);
         
         return credencialJSON;
@@ -101,7 +102,7 @@ public class Credencial {
     //Credencial ya existente, convertida a objeto, por ende necesita el ID original
     public void Credencial(int id, String sitio, String nombreCuenta, String contra, ConfigCredencial tipoDeCifrado)
     {
-        this.setId(id);
+        this.setId();
         this.Credencial(sitio, nombreCuenta, contra, tipoDeCifrado);
         
         this.DescifrarEstaCredencialAlCrear();
@@ -249,7 +250,7 @@ public class Credencial {
     
     public boolean exactlyEquals(Credencial credencialComparada)
     {
-        boolean esExactamenteIgual = this.getId() == credencialComparada.getId() && this.equals(credencialComparada);
+        boolean esExactamenteIgual = this.getId().equals(credencialComparada.getId()) && this.equals(credencialComparada);
         
         return esExactamenteIgual;
     }
