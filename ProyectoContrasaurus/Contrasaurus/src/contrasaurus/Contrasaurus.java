@@ -5,6 +5,13 @@
 package contrasaurus;
 //import java.util.UUID;
 //import java.security.MessageDigest;
+
+import app.CredencialAlmacenada;
+import app.DatosCredencial;
+import app.ETipoCifrado;
+import app.ConfigCredencial;
+import app.Database;
+
 //import java.util.Base64;
 
 
@@ -20,26 +27,45 @@ public class Contrasaurus {
     public static void main(String[] args) {
         
         
+        DatosCredencial cuentaRoblox = new DatosCredencial("Youtube", "Crimsondeath", "pancho321");
+        ConfigCredencial conf= new ConfigCredencial(ETipoCifrado.SIN_CIFRAR, ETipoCifrado.SIN_CIFRAR, ETipoCifrado.SIN_CIFRAR);
         
-        //---------LA CONTRASEÑA ES: Papafrita343---(esto es temporal)---------
-        // TODO code application logic here
-        //String IDUnica = UUID.randomUUID().toString();
-        //System.out.println(IDUnica);
+        CredencialAlmacenada cosita = new CredencialAlmacenada(cuentaRoblox, conf);
+        try{
+            cosita.cifrarCredencial("cosoflan");
+        }
+        catch(Exception ex){System.out.println("lol, reventó todo");}
+        Database.aniadirCredencial(cosita);
+        
+        
+        
+        
+        
+        
+        //Database.eliminarCredencial("fb631182-6ba6-4318-81fb-d0c2490d6e5d");
         
         /*
-        String choclo = "holaSoyLorenzoCo";
+        var coso = Database.obtenerTodasCredenciales();
         try{
-            MessageDigest gest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = gest.digest(choclo.getBytes("UTF8")); 
-            //String choclo2 = new String(Base64.Encoder(hash));
-        } 
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
-        String choclo2= Base64.getEncoder().encodeToString(choclo.getBytes());
-        System.out.println(choclo2);
+        while(coso.next()){System.out.println(coso.getString("ID") + " :  " + coso.getString("sitio"));}
+        }catch (Exception ex){System.out.println("ERROR EN SQL, " + ex.getMessage());}
         */
+        
+        /*
+        var coso = Database.obtenerUnaCredencial("a4dee8a1-d12c-4baa-afb3-78da50724ef8");
+        try{
+        while(coso.next()){System.out.println(coso.getString("ID") + " :  " + coso.getString("sitio"));}
+        }catch (Exception ex){System.out.println("ERROR EN SQL, " + ex.getMessage());}
+        */
+        
+        /*
+        Credencial cuentaRoblox = new Credencial("Youtube", "CumToDeath", "pancho321");
+        ConfigCredencial conf= new ConfigCredencial(ETipoCifrado.SIN_CIFRAR, ETipoCifrado.SIN_CIFRAR, ETipoCifrado.SIN_CIFRAR);
+        
+        CredencialAlmacenada cosita = new CredencialAlmacenada("a4dee8a1-d12c-4baa-afb3-78da50724ef8", cuentaRoblox, conf);
+        
+        
+        Database.editarDatosCredencial(cosita);*/
         
     }
 

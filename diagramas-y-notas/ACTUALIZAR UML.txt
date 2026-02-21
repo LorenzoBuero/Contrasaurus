@@ -13,3 +13,5 @@ ya que no voy a usar JSON sino una base de datos (sqlite)
 
 modificar comportamiento del verificador de la contraseña
 
+volver todos los setters de configCifrado en privados??????
+
