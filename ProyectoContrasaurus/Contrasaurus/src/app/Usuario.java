@@ -7,20 +7,24 @@ package app;
 import java.security.SecureRandom;
 import java.util.UUID;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  *
  * @author pirulo
  */
-public class ContraseniaApp {
+public class Usuario implements IAlmacenable{
     
     private String id;
     private String nombreUsuario;
     private String superContrasenia;
     private byte[] sal;
     private int repeticiones;
+    
     private String claveParaCifrados;
 
-    protected String getId() {
+    public String getId() {
         return id;
     }
 
@@ -33,23 +37,23 @@ public class ContraseniaApp {
         return UUID.randomUUID().toString();
     }
 
-    protected String getNombreUsuario() {
+    public String getNombreUsuario() {
         return nombreUsuario;
     }
 
-    private void setNombreUsuario(String nombreUsuario) {
+    public void setNombreUsuario(String nombreUsuario) {
         this.nombreUsuario = nombreUsuario;
     }
 
-    protected String getSuperContrasenia() {
+    public String getSuperContrasenia() {
         return superContrasenia;
     }
 
-    private void setSuperContrasenia(String superContrasenia) {
+    public void setSuperContrasenia(String superContrasenia) {
         this.superContrasenia = superContrasenia;
     }
 
-    protected byte[] getSal() {
+    public byte[] getSal() {
         return sal;
     }
 
@@ -64,7 +68,7 @@ public class ContraseniaApp {
         return sal;
     }
 
-    protected int getRepeticiones() {
+    public int getRepeticiones() {
         return repeticiones;
     }
 
@@ -97,11 +101,11 @@ public class ContraseniaApp {
     
     
     
-    protected ContraseniaApp(String nombreUsuario, String superContrasenia){
+    public Usuario(String nombreUsuario, String superContrasenia){
         this(newId(), nombreUsuario, superContrasenia, newSal(), newRepeticiones());
     }
     
-    protected ContraseniaApp(String id, String nombreUsuario, String superContrasenia, byte[] sal, int repeticiones){
+    public Usuario(String id, String nombreUsuario, String superContrasenia, byte[] sal, int repeticiones){
         this.setId(id);
         this.setNombreUsuario(nombreUsuario);
         this.setSuperContrasenia(superContrasenia);
@@ -110,9 +114,40 @@ public class ContraseniaApp {
         this.setClaveParaCifrados(this.newClaveParaCifrados());
     }
     
-    protected String obtenerSuperContraseniaSHA256(){
+    public String obtenerSuperContraseniaSHA256(){
         HashSHA256 hasheador = new HashSHA256();
         String retorno = hasheador.Cifrar(this.getSuperContrasenia(), this.getSal(), this.getRepeticiones());
         return retorno;
     } 
+    
+    
+    
+    
+    
+    
+    
+    //-------------------OVERRIDES----------------------------
+    @Override
+    public PreparedStatement prepararAlmacenado(PreparedStatement pStatement, int[] incluidos) throws SQLException{
+        int i = 1;
+        for (int incluido : incluidos){
+            switch(incluido){
+                
+                case 1 -> pStatement.setString(i, this.getId());
+                
+                case 2 -> pStatement.setString(i, this.getNombreUsuario());
+            
+                case 3 -> pStatement.setString(i, this.obtenerSuperContraseniaSHA256());
+            
+                case 4 -> pStatement.setBytes(i, this.getSal());
+                
+                case 5 -> pStatement.setInt(i, this.getRepeticiones());
+            }
+        
+            i++;
+        }
+        
+        return pStatement;
+    }
+    
 }

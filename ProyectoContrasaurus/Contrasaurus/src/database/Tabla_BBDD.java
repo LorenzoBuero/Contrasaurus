@@ -1,29 +1,24 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package database;
 
-/**
- *
- * @author pirulo
- */
-
-
-
-import app.CredencialAlmacenada;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+import app.IAlmacenable;
 
 /**
  *
  * @author pirulo
  */
-public abstract class Database {
+public abstract sealed class Tabla_BBDD permits Credenciales_BBDD, Usuarios_BBDD{
     
-    
-    
+    protected abstract String getNombreTabla(); 
     
     private static Connection getConeccion() throws SQLException
     {
@@ -36,10 +31,12 @@ public abstract class Database {
         return coneccion;
     }
     
-    protected static ResultSet obtenerTodasCredenciales()
-    {
+    //OBTENER
+    protected abstract ResultSet obtenerTodos();
+    
+    protected static ResultSet obtenerTodos(String tabla){
         
-        String query = "SELECT * FROM credenciales";
+        String query = "SELECT * FROM " + tabla;
         ResultSet resultado = null;
         
         try {
@@ -60,10 +57,12 @@ public abstract class Database {
         }
         
         return resultado;  
+    
+    
     }
-   
-    protected static ResultSet obtenerUnaCredencial(String buscado){
-        String query = "SELECT * FROM credenciales WHERE ID = ?";
+    
+    protected static ResultSet obtenerUno(String tabla, String buscado){
+        String query = "SELECT * FROM " + tabla + " WHERE ID = ?";
         ResultSet resultado = null;
         
         try {
@@ -73,10 +72,6 @@ public abstract class Database {
             pStatement.setString(1, buscado);
             
             resultado = pStatement.executeQuery(); 
-            
-            
-            
-            
         }
         catch (SQLException ex) {
             
@@ -86,28 +81,20 @@ public abstract class Database {
         }
         
         return resultado;
-    
     }
-            
-            
-            
-    protected static boolean agregarUnaCredencial(CredencialAlmacenada cred)
-    {
-        String query = "INSERT INTO credenciales "
-                + "(ID, sitio, nombre_cuenta, contra, iv, sal, repeticiones, conf_cred) VALUES (?, ?, ?, ?, ?, ?, ?, ?)" ;
-                
+
+    protected abstract ResultSet obtenerUno(String buscado);
+    
+    
+    //AGREGAR
+    protected static boolean agregarUno(String query, IAlmacenable almacenable)
+    {       
         try{
             Connection coneccion = getConeccion();
             PreparedStatement pStatement = coneccion.prepareStatement(query);
             
-            pStatement.setString(1, cred.getId());
-            pStatement.setString(2, cred.getCredencial().getSitio());
-            pStatement.setString(3, cred.getCredencial().getNombreCuenta());
-            pStatement.setString(4, cred.getCredencial().getContra());
-            pStatement.setBytes(5, cred.getParametros().getIv());
-            pStatement.setBytes(6, cred.getParametros().getSal());
-            pStatement.setInt(7, cred.getParametros().getRepeticiones());
-            pStatement.setString(8, cred.getConfig().getCaracteresConfig());
+            int[] incluidos = {1, 2, 3, 4, 5, 6, 7, 8};
+            pStatement = almacenable.prepararAlmacenado(pStatement, incluidos);
             
             int registrosAniadidos = pStatement.executeUpdate();
             System.out.println(registrosAniadidos);
@@ -124,18 +111,15 @@ public abstract class Database {
         }    
     }
     
-    protected static boolean editarDatosCredencial(CredencialAlmacenada credAlterada){
-        
-        String query = "UPDATE credenciales SET sitio = ?, nombre_cuenta = ?, contra = ? WHERE ID = ?";
-        
+    
+    //EDITAR
+    protected static boolean editarUno(String query, IAlmacenable almacenable, int[] alterados)
+    {
         try{
             Connection coneccion = getConeccion();
             PreparedStatement pStatement = coneccion.prepareStatement(query);
             
-            pStatement.setString(1, credAlterada.getCredencial().getSitio());
-            pStatement.setString(2, credAlterada.getCredencial().getNombreCuenta());
-            pStatement.setString(3, credAlterada.getCredencial().getContra());
-            pStatement.setString(4, credAlterada.getId());
+            pStatement = almacenable.prepararAlmacenado(pStatement, alterados);
             
             int exito = pStatement.executeUpdate();
             if(exito>0){System.out.println("Registro alterado");}
@@ -152,11 +136,10 @@ public abstract class Database {
         }        
     }
     
-    protected static boolean editarConfigCredencial(){return false;}
     
-    protected static boolean eliminarCredencial(String ID){
-    
-        String query = "DELETE FROM credenciales WHERE ID = ?";
+    //ELIMINAR
+    protected static boolean eliminarUno(String ID, String tabla){
+        String query = "DELETE FROM " + tabla + " WHERE ID = ?";
         
         try{
             Connection coneccion = getConeccion();
@@ -177,7 +160,6 @@ public abstract class Database {
             return false;
         }
     }
+    
+    protected abstract boolean eliminarUno(String ID);
 }
-
-
-

@@ -10,6 +10,8 @@ package app;
  * @author pirulo
  */
 
+import java.security.SecureRandom;
+
 public class ParametrosDelCifrado {
     
     private byte[] Iv;
@@ -30,6 +32,14 @@ public class ParametrosDelCifrado {
         this.Iv = Iv;
     }
 
+    private void setNewIv(){
+        byte[] iv = new byte[16];
+        SecureRandom sr = new SecureRandom();
+        sr.nextBytes(iv);
+        
+        this.Iv = iv;
+    }
+    
     /**
      * @return the sal
      */
@@ -44,6 +54,14 @@ public class ParametrosDelCifrado {
         this.sal = sal;
     }
 
+    private void setNewSal(){
+        byte[] cloruroDeSodio = new byte[32];
+        SecureRandom sr = new SecureRandom();
+        sr.nextBytes(cloruroDeSodio);
+        
+        this.sal = cloruroDeSodio;
+    }
+    
     /**
      * @return the repeticiones
      */
@@ -58,9 +76,20 @@ public class ParametrosDelCifrado {
         this.repeticiones = repeticiones;
     }
     
+    private void setNewRepeticiones(){
+        SecureRandom random = new SecureRandom();
+        this.repeticiones = random.nextInt(200000, 300000);
+    }
+    
     public ParametrosDelCifrado(byte[] IV, byte[] sal, int repeticiones){
         this.setIv(IV);
         this.setSal(sal);
         this.setRepeticiones(repeticiones);
+    }
+    
+    public ParametrosDelCifrado(){
+        this.setNewIv();
+        this.setNewSal();
+        this.setNewRepeticiones();
     }
 }

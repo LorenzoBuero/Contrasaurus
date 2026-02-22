@@ -163,11 +163,7 @@ public class CifDefault {
 
 
 /*INGRESO DE DATOS*/
-       /* System.out.println("hola");
-        Scanner scanner = new Scanner(System.in);
-        String ingresado = scanner.nextLine();
-        scanner.close();
-        String textoSecreto = ingresado;
+       /* 
         ///////////////////////////////////////////////////////
         
         
@@ -180,8 +176,6 @@ public class CifDefault {
         final String ALGORITMO = "AES/CBC/PKCS5Padding";
         final String ALGORITMO_CONTRASENIA_PERSONALIZADA = "PBKDF2WithHmacSHA256";
         
-        //sal
-        //byte[] cloruroDeSodio = CLAVE.getBytes("UTF-8");
         //Generar SAL
         byte[] cloruroDeSodio = new byte[32];
         SecureRandom sr = new SecureRandom();

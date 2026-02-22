@@ -43,14 +43,6 @@ public class ConfigCredencial {
         this.cifradoContra = cifradoContra;
     }
     
-    public String getCaracteresConfig(){
-        String conf = "";
-        conf = conf + this.getCifradoSitio().valor;
-        conf = conf + this.getCifradoNombreCuenta().valor;
-        conf = conf + this.getCifradoContra().valor;
-        
-        return conf;
-    }
     
     
     //---------------------------CONSTRUCTORES-------------------
@@ -94,13 +86,11 @@ public class ConfigCredencial {
     @Override
     public String toString()
     {
-        //DEBO TESTEAR
-        String retorno = "";
+        String conf = "";
+        conf = conf + this.getCifradoSitio().valor;
+        conf = conf + this.getCifradoNombreCuenta().valor;
+        conf = conf + this.getCifradoContra().valor;
         
-        retorno += this.getCifradoSitio().toString();
-        retorno += this.getCifradoNombreCuenta().toString();
-        retorno += this.getCifradoContra().toString();
-    
-        return retorno;
+        return conf;
     }
 }

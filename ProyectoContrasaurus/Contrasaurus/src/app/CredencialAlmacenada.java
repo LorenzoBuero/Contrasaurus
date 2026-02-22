@@ -13,30 +13,10 @@ package app;
  * @author pirulo
  */
 import java.util.UUID;
-import java.nio.charset.StandardCharsets;
-import javax.crypto.spec.SecretKeySpec;
-import javax.crypto.spec.PBEKeySpec;
-//import java.util.Scanner;
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import java.security.SecureRandom;
-//import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.GCMParameterSpec;
-import java.security.AlgorithmParameters;
-import java.util.Base64;
-import java.security.NoSuchAlgorithmException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.InvalidKeyException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.BadPaddingException;
-import java.security.spec.InvalidParameterSpecException;
-import java.security.InvalidAlgorithmParameterException;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
-import excepciones.CredencialYaCifradaException;
-
-public class CredencialAlmacenada{
+public class CredencialAlmacenada implements IAlmacenable{
     private String id;
     private DatosCredencial credencial;
     private ConfigCredencial config;
@@ -336,30 +316,31 @@ public class CredencialAlmacenada{
     
     protected void descifrarCredencialOculto(String claveOculto){// throws NoSuchAlgorithmException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, InvalidParameterSpecException{
 
-    if(!this.getEstadoCifrado())
-    {
-        System.out.println("LA CREDENCIAL YA ESTABA DESCIFRADA");
-        //throw new CredencialYaDescifradaException("ERROR, la credencial ya se encuentra cifrada");/////////////////
-    }
-    else
-    {
-        CifDefault descifrador = new CifDefault(claveOculto, this.getParametros().getIv(), this.getParametros().getSal(), this.getParametros().getRepeticiones());
-
-        if(this.getConfig().getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
-            String sitioPeroDescifrado = descifrador.descifrar(this.getCredencial().getSitio());
-            this.getCredencial().setContra(sitioPeroDescifrado);
+        if(!this.getEstadoCifrado())
+        {
+            System.out.println("LA CREDENCIAL YA ESTABA DESCIFRADA");
+            //throw new CredencialYaDescifradaException("ERROR, la credencial ya se encuentra cifrada");/////////////////
         }
+        else
+        {
+            CifDefault descifrador = new CifDefault(claveOculto, this.getParametros().getIv(), this.getParametros().getSal(), this.getParametros().getRepeticiones());
 
-        if(this.getConfig().getCifradoNombreCuenta().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
-            String nombreCuentaPeroDescifrado = descifrador.descifrar(this.getCredencial().getNombreCuenta());
-            this.getCredencial().setNombreCuenta(nombreCuentaPeroDescifrado);   
-        }
+            if(this.getConfig().getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
+                String sitioPeroDescifrado = descifrador.descifrar(this.getCredencial().getSitio());
+                this.getCredencial().setContra(sitioPeroDescifrado);
+            }
 
-        if(this.getConfig().getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
-            String contraPeroDescifrada = descifrador.descifrar(this.getCredencial().getContra());
-            this.getCredencial().setContra(contraPeroDescifrada);
+            if(this.getConfig().getCifradoNombreCuenta().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
+                String nombreCuentaPeroDescifrado = descifrador.descifrar(this.getCredencial().getNombreCuenta());
+                this.getCredencial().setNombreCuenta(nombreCuentaPeroDescifrado);   
+            }
+
+            if(this.getConfig().getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
+                String contraPeroDescifrada = descifrador.descifrar(this.getCredencial().getContra());
+                this.getCredencial().setContra(contraPeroDescifrada);
+            }
+            this.setEstadoCifradoOculto(false);
         }
-        this.setEstadoCifradoOculto(false);
     }
         
         
@@ -416,6 +397,36 @@ public class CredencialAlmacenada{
         
         return esIgual; 
     }
+    
+    @Override
+    public PreparedStatement prepararAlmacenado(PreparedStatement pStatement, int[] incluidos) throws SQLException{
+        int i = 1;
+        for(int incluido : incluidos)
+        {
+            switch(incluido)
+            {
+                case 1 -> pStatement.setString(i, this.getId());
+                
+                case 2 -> pStatement.setString(i, this.getCredencial().getSitio());
+            
+                case 3 -> pStatement.setString(i, this.getCredencial().getNombreCuenta());
+            
+                case 4 -> pStatement.setString(i, this.getCredencial().getContra());
+            
+                case 5 -> pStatement.setBytes(i, this.getParametros().getIv());
+            
+                case 6 -> pStatement.setBytes(i, this.getParametros().getSal());
+            
+                case 7 -> pStatement.setInt(i, this.getParametros().getRepeticiones());
+            
+                case 8 -> pStatement.setString(i, this.getConfig().toString()); 
+            }
+            i++;
+        }
+        return pStatement;
+        
+    }
+    
     
     public boolean exactlyEquals(CredencialAlmacenada credencialComparada)
     {

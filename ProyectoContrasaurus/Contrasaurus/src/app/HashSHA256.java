@@ -44,24 +44,7 @@ public class HashSHA256 implements IHasheador{
         }
     }
         
-        
-        /*String retorno = "";
-        final String ALGORITMO = "SHA256";
-        final String CHARSET = "UTF8";
-        
-        try{
-            MessageDigest cifrador = MessageDigest.getInstance(ALGORITMO);
-            
-            cifrador.update(sal);
-            
-            byte[] textoCifradoEnBytes = cifrador.digest(ingreso.getBytes(CHARSET));
-            retorno = Base64.getEncoder().encodeToString(textoCifradoEnBytes);
-        }catch (Exception e){
-            //throw new Exception(e); //esto da error
-            System.out.println("OCURRIO UN ERROR AL CREAR EL SHA-256");//volvería a tirar la excepcion, pero no me deja
-        }*/
-   
-        
+
 
     
 }

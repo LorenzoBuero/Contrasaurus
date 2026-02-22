@@ -13,10 +13,14 @@ import java.sql.SQLException;
  *
  * @author Lorenzo Buero
  */
-public abstract class API_DB {
+public abstract class ModeloCredenciales {
+    
+    private static Credenciales_BBDD getBBDD(){ return new Credenciales_BBDD();}
+    
     
     private static CredencialAlmacenada mapeadorDeCredencialAlmacenada(ResultSet registro){
-    
+        
+        
         CredencialAlmacenada credencialRetorno = null;
         try{
             
@@ -30,13 +34,17 @@ public abstract class API_DB {
             String confCred = registro.getString("conf_cred");
 
             DatosCredencial datosCredencial = new DatosCredencial(sitio, nombreCuenta, contra);
-            ConfigCredencial configuracion = new ConfigCredencial(ETipoCifrado.SIN_CIFRAR, ETipoCifrado.CIFRADO_DEFAULT, ETipoCifrado.CIFRADO_DEFAULT);
+            char[] confs = {confCred.charAt(0), confCred.charAt(1), confCred.charAt(2)};
+            ConfigCredencial configuracion = new ConfigCredencial(confs[0], confs[1], confs[2]);
             ParametrosDelCifrado parametros = new ParametrosDelCifrado(iv, sal, repeticiones);
 
             credencialRetorno = new CredencialAlmacenada(id, datosCredencial, configuracion, parametros);
             
         }catch(SQLException ex){
             System.out.println("ERROR EN SQLite");
+            System.out.println(ex.getMessage());
+        }catch(InstantiationException ex){
+            System.out.println("ERROR, DATOS SOBRE EL CIFRADO DAÑADOS");
             System.out.println(ex.getMessage());
         }
         return credencialRetorno;
@@ -47,7 +55,9 @@ public abstract class API_DB {
     
     public static ArrayList<CredencialAlmacenada> obtenerTodasCredenciales(){
         
-        ResultSet registros = Database.obtenerTodasCredenciales();
+        
+        ResultSet registros = getBBDD().obtenerTodos();
+        
         ArrayList<CredencialAlmacenada> credenciales = new ArrayList<>(); 
         
         try{
@@ -66,7 +76,7 @@ public abstract class API_DB {
     
     public static CredencialAlmacenada obtenerUnaCredencial(String ID){
         
-        ResultSet registro = Database.obtenerUnaCredencial(ID);
+        ResultSet registro = getBBDD().obtenerUno(ID);
         CredencialAlmacenada credencial = mapeadorDeCredencialAlmacenada(registro);
         
         return credencial;
@@ -74,7 +84,7 @@ public abstract class API_DB {
     }
     
     public static boolean agregarUnaCredencial(CredencialAlmacenada cred){
-        boolean retorno = Database.agregarUnaCredencial(cred);
+        boolean retorno = getBBDD().agregarUno(cred);
         return retorno;
     }
     
@@ -83,17 +93,17 @@ public abstract class API_DB {
         boolean exito1 = true;
         boolean exito2 = true;
         if(!cred.getConfig().equals(credAEditar.getConfig())){
-            //exito1 = Database.editarConfigCredencial();
+            exito1 = getBBDD().editarConfigCredencial(cred);
         }
         if(!cred.getCredencial().equals(credAEditar.getCredencial())){
-            exito2 = Database.editarDatosCredencial(cred);
+            exito2 = getBBDD().editarDatosCredencial(cred);
         }
         
         return exito1 && exito2;
     }
     
-    public static boolean eliminarUnaCredencual(String ID){
-        boolean retorno = Database.eliminarCredencial(ID);
+    public static boolean eliminarUnaCredencial(String ID){
+        boolean retorno = getBBDD().eliminarUno(ID);
         return retorno;
     }
 }
