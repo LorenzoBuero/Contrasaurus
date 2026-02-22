@@ -41,78 +41,176 @@ public class AppConsola {
     public AppConsola(){}
     
     
-    public void iniciar(){}
+    public void iniciar(){
     
-    private Usuario obtenerDatosUsuario(){
-    
-        Scanner escaner = new Scanner(System.in);
-        String superContrasenia = null;
-        
-        Usuario esteUsuario = null;
-        boolean usuarioConfirmado = false;
-        
-        
-        
-        ArrayList<Usuario> usuarios= ModeloUsuarios.obtenerTodosLosUsuarios();
-        while(!usuarioConfirmado){
-            String superHasheada = "nada";
-            while(true){
-                int contador = 1;
-                int numCredencial;
+        Usuario usuarioActual = this.login();
+        if(usuarioActual != null){
+            
+            this.setUsuario(usuarioActual);
+
+            System.out.println("Hola " + this.getUsuario().getNombreUsuario() + "\n");
+            boolean continuar = true;
+            while(continuar){
+                int eleccion = this.menuOpcionesUsuario();
+
+                switch(eleccion){
+
+                    case 1 -> this.mostrarCredenciales();
+                    case 2 -> this.mostrarCredencialesOcultas();
+                    case 3 -> this.agregarCredencial();
+                    case 4 -> this.editarCredencial();
+                    case 5 -> this.eliminarCredencial();
+                    case 6 -> this.menuOpciones()
+                    case 7 -> continuar=false;
 
 
-                for(Usuario usuario : usuarios){
-                    System.out.println("* ." + contador + " - " + usuario.getNombreUsuario());
-                }
-                System.out.println("ingrese el numero correspondiente a su usuario");
-                try{
-                    numCredencial = escaner.nextInt();
-                }catch(Exception ex){
-                    System.out.println("ERROR, ingrese el numero correspondiente a su usuario");
-                    continue;
+
                 }
 
-                if(!(usuarios.size() - 1 >= numCredencial) || numCredencial < 0){
-                    System.out.println("ERROR, ingrese el numero correspondiente a su usuario");
-                    continue;
-                }
-                esteUsuario = usuarios.get(numCredencial);
-                break;
+
+
+
+
+
             }
+            System.out.println("Chau " + usuario.getNombreUsuario());
+
+        }else{System.out.println("Chau desconocido");}
         
-            while(!superHasheada.equals(esteUsuario.getSuperContrasenia())){
-                HashSHA256 hasheador = new HashSHA256(); 
-                
-                System.out.println("Ingrese la contraseña de " + esteUsuario.getNombreUsuario() + " o X para salir");
-                superContrasenia = escaner.next();
-                
-                superHasheada = hasheador.Cifrar(superContrasenia, esteUsuario.getSal(), esteUsuario.getRepeticiones());
-                
-                if(superContrasenia.toLowerCase().equals("x")){
-                    System.out.println("Volviendo a seleccion de usuarios...");
-                    break;
-                }
-                if(!superHasheada.equals(esteUsuario.getSuperContrasenia())){
-                    System.out.println("Esa no es la contraseña, probá otra vez o poné X para cambiar de cuenta");
-                    continue;
-                }
-                else{          
-                    usuarioConfirmado = true;
-                }
-                
-            }
+
+    }
     
-        }
+    private Usuario login(){
     
+        Usuario esteUsuario = this.solicitarNombreYContrasenia();
+        
         return esteUsuario;
+    }
+    
+    private int menuOpcionesUsuario(){
+        Scanner escaner = new Scanner(System.in);
+        int eleccion = -1;
+        boolean continuar = true;
+        while(continuar){
+            System.out.println("Ingrese el numero correspondiente a lo que quiera hacer\n" + 
+                                "-1. Mostrar credenciales\n" +
+                                "-2. Mostrar credenciales ocultas\n" +
+                                "-3. Agregar credencial\n"+
+                                "-4. Editar credencial\n"+
+                                "-5. Borrar credencial\n"+
+                                "-6. Opciones\n" +
+                                "-7. Salir");
+        
+            
+            
+            try{
+                eleccion = escaner.nextInt();
+            }catch(Exception ex){
+                System.out.println("ERROR, por favor ingrese un numero correspondiente a las opciones listadas");
+                continue;
+            }
+            if(eleccion < 1 || eleccion > 7){
+                System.out.println("ERROR, por favor ingrese una de las opciones listadas");
+                continue;
+            }
+            continuar = false;
+        }
+        return eleccion;
+    
     }
     
     
     
     
     
+    private boolean verificarContrasenia(Usuario esteUsuario, String superContrasenia){
+        boolean retorno = false;
+        HashSHA256 hasheador = new HashSHA256(); 
+        
+        String superHasheada = hasheador.Cifrar(superContrasenia, esteUsuario.getSal(), esteUsuario.getRepeticiones());
+
+        if(superHasheada.equals(esteUsuario.getSuperContrasenia())){
+            retorno = true;
+        }
+
+        return retorno;
+    }
+     
     
     
     
+    private String obtenerContraseniaValida(Usuario esteUsuario){
+        Scanner escaner = new Scanner(System.in);
+        String superContrasenia = escaner.next();
+    
+        if(superContrasenia.equals("x")){return "x";}
+        else if(!this.verificarContrasenia(esteUsuario, superContrasenia)){
+            return "valida";
+        }
+        else{
+            return "invalida";
+        }
+        
+        
+    }
+    
+    private Usuario solicitarContraseniaYVerificar(Usuario esteUsuario){
+        
+        Usuario retorno = null;
+        while(retorno == null){
+            
+            System.out.println("Ingrese la contraseña de " + esteUsuario.getNombreUsuario() + " o X para salir");
+            String resultadoIngreso = this.obtenerContraseniaValida(esteUsuario);
+            
+            if(resultadoIngreso.equals("invalido")){
+                System.out.println("ERROR, ingrese una contraseña valida");
+                //continue;
+            }else if(resultadoIngreso.equals("x")){
+                
+                System.out.println("Volviendo al menú de seleccion de usuario");
+                retorno = solicitarNombreYContrasenia(); //es como si volviera para atras, a cuando solicita el nombre del usuario, esto es muy estilo programacion funcional
+            
+            }else{
+                retorno = esteUsuario;
+                
+            }
+        }
+        return retorno;
+        
+    }
+    
+    private Usuario solicitarNombreYContrasenia(){
+        ArrayList<Usuario> usuarios = ModeloUsuarios.obtenerTodosLosUsuarios();
+        Usuario retorno = null;
+        while(retorno == null){
+            Scanner escaner = new Scanner(System.in);
+            
+            int contador = 1;
+            int numCredencial;
+
+            System.out.println("* .0 Salir");
+            for(Usuario usuario : usuarios){
+                System.out.println("* ." + contador + " - " + usuario.getNombreUsuario());
+            }
+            
+            System.out.println("Ingrese el numero correspondiente a su usuario");
+            try{
+                numCredencial = escaner.nextInt() - 1;
+            }catch(Exception ex){
+                System.out.println("ERROR, ingrese el numero correspondiente a su usuario");
+                continue;
+            }
+            
+            if(!(usuarios.size() >= numCredencial) || numCredencial < -1){
+                System.out.println("ERROR, ingrese el numero correspondiente a su usuario");
+                continue;
+            } else if(numCredencial == 0){
+                break;//para que retorno null
+            }
+            Usuario esteUsuario = usuarios.get(numCredencial);
+            retorno = solicitarContraseniaYVerificar(esteUsuario);
+        }
+        return retorno;
+    }
     
 }

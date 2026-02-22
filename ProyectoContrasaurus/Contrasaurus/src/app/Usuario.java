@@ -87,7 +87,7 @@ public class Usuario implements IAlmacenable{
         this.claveParaCifrados = claveParaCifrados;
     }
     
-    protected String getClaveParaCifrados(){
+    public String getClaveParaCifrados(){
         return this.claveParaCifrados;
     }
 
