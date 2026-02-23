@@ -43,6 +43,19 @@ public class ConfigCredencial {
         this.cifradoContra = cifradoContra;
     }
     
+    protected boolean tieneDatosOcultos(){
+    
+        boolean retorno = false;
+        if(this.getCifradoContra().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO) ||
+                this.getCifradoNombreCuenta().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO) ||
+                this.getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
+            retorno = true;
+        
+        }
+        return retorno;
+    
+    }
+    
     
     
     //---------------------------CONSTRUCTORES-------------------

@@ -54,9 +54,15 @@ public class DatosCredencial {
         this.setContra(contra);
     }
 
-
-
-
+    public boolean equals(DatosCredencial datosComparados){
+        if(this.getContra().equals(datosComparados) && 
+        this.getNombreCuenta().equals(datosComparados.getNombreCuenta()) && 
+        this.getContra().equals(datosComparados.getContra())){
+            
+            return true;
+        }
+        return false;
+    }
 }
     //Credencial nueva, por ende crea un nuevo ID por su cuenta
     /*public void Credencial(String sitio, String nombreCuenta, String contra, ConfigCredencial tipoDeCifrado)
@@ -120,6 +126,6 @@ public class DatosCredencial {
         return esExactamenteIgual;
     }
     */
-    
+  
     
 
