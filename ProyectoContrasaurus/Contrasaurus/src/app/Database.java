@@ -96,9 +96,9 @@ public abstract class Database {
             PreparedStatement pStatement = coneccion.prepareStatement(query);
             
             pStatement.setString(1, cred.getId());
-            pStatement.setString(2, cred.getCredencial().getSitio());
-            pStatement.setString(3, cred.getCredencial().getNombreCuenta());
-            pStatement.setString(4, cred.getCredencial().getContra());
+            pStatement.setString(2, cred.getDatosCredencial().getSitio());
+            pStatement.setString(3, cred.getDatosCredencial().getNombreCuenta());
+            pStatement.setString(4, cred.getDatosCredencial().getContra());
             pStatement.setBytes(5, cred.getParametros().getIv());
             pStatement.setBytes(6, cred.getParametros().getSal());
             pStatement.setInt(7, cred.getParametros().getRepeticiones());
@@ -127,9 +127,9 @@ public abstract class Database {
             Connection coneccion = getConeccion();
             PreparedStatement pStatement = coneccion.prepareStatement(query);
             
-            pStatement.setString(1, credAlterada.getCredencial().getSitio());
-            pStatement.setString(2, credAlterada.getCredencial().getNombreCuenta());
-            pStatement.setString(3, credAlterada.getCredencial().getContra());
+            pStatement.setString(1, credAlterada.getDatosCredencial().getSitio());
+            pStatement.setString(2, credAlterada.getDatosCredencial().getNombreCuenta());
+            pStatement.setString(3, credAlterada.getDatosCredencial().getContra());
             pStatement.setString(4, credAlterada.getId());
             
             int exito = pStatement.executeUpdate();

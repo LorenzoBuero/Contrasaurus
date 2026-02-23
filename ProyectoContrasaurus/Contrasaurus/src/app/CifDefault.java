@@ -58,12 +58,12 @@ public class CifDefault {
     
     
     
-    protected CifDefault(String clave, byte[] iv, byte[] sal, int repeticiones){
+    protected CifDefault(String clave, ParametrosDelCifrado params){
     
         this.setClave(clave);
-        this.setIv(iv);
-        this.setSal(sal);
-        this.setRepeticiones(repeticiones);
+        this.setIv(params.getIv());
+        this.setSal(params.getSal());
+        this.setRepeticiones(params.getRepeticiones());
     }
     
     protected String cifrar(String datoACifrar){//throws CredencialYaCifradaException, NoSuchAlgorithmException, IllegalBlockSizeException, BadPaddingException, NoSuchPaddingException, InvalidKeyException, InvalidKeySpecException, InvalidParameterSpecException{

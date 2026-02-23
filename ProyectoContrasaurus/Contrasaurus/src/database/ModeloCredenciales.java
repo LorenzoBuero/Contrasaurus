@@ -95,7 +95,7 @@ public abstract class ModeloCredenciales {
         if(!cred.getConfig().equals(credAEditar.getConfig())){
             exito1 = getBBDD().editarConfigCredencial(cred);
         }
-        if(!cred.getCredencial().equals(credAEditar.getCredencial())){
+        if(!cred.getDatosCredencial().equals(credAEditar.getDatosCredencial())){
             exito2 = getBBDD().editarDatosCredencial(cred);
         }
         
