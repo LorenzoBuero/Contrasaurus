@@ -6,6 +6,8 @@ package contrasaurus;
 //import java.util.UUID;
 //import java.security.MessageDigest;
 
+import GUI.*;
+
 import app.CredencialAlmacenada;
 import app.DatosCredencial;
 import app.ETipoCifrado;
@@ -27,6 +29,31 @@ public class Contrasaurus {
     public static void main(String[] args) {
         
         
+        
+        
+        
+        PantallaBuscarContrasenia pantalla = new PantallaBuscarContrasenia();
+        pantalla.setVisible(true);
+        pantalla.setLocationRelativeTo(null);
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        /*
+        
         DatosCredencial cuentaRoblox = new DatosCredencial("Youtube", "Crimsondeath", "pancho321");
         ConfigCredencial conf= new ConfigCredencial(ETipoCifrado.SIN_CIFRAR, ETipoCifrado.SIN_CIFRAR, ETipoCifrado.SIN_CIFRAR);
         
@@ -37,7 +64,7 @@ public class Contrasaurus {
         catch(Exception ex){System.out.println("lol, reventó todo");}
         Database.aniadirCredencial(cosita);
         
-        
+        */
         
         
         
