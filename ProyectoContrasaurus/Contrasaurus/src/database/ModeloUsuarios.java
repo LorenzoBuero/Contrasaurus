@@ -15,7 +15,23 @@ import java.sql.SQLException;
 //PARA AMBOS MODELOS PODRÍA USAR UNA SUPERCLASE Y HEREDARLA, PERO NO VALE LA PENA, PRÁCTICAMENTE NO COMPARTEN CÓDIGO
 public class ModeloUsuarios {
     
+    
+    
+    public static void drop(){
+    getBBDD().drop();
+    }
+    
+    
+    
+    
+    
+    
+    
     private static Usuarios_BBDD getBBDD(){return new Usuarios_BBDD();}
+    
+    public static void crearTabla(){
+        getBBDD().crearTablaUsuarios();
+    }
     
     private static Usuario mapeadorDeUsuario(ResultSet registro){
     
@@ -36,6 +52,7 @@ public class ModeloUsuarios {
         }
         return usuarioRetorno;
     }
+    
     public static ArrayList<Usuario> obtenerTodosLosUsuarios(){
     
         ResultSet registros = getBBDD().obtenerTodos();
@@ -54,8 +71,8 @@ public class ModeloUsuarios {
         return usuarios;
     }
     
-    public static Usuario obtenerUnUsuario(String nombreUsuario){
-        ResultSet registro = getBBDD().obtenerUno(nombreUsuario);
+    public static Usuario obtenerUnUsuario(String IdUsuario){
+        ResultSet registro = getBBDD().obtenerUnoPorID(IdUsuario);
         Usuario usuario = mapeadorDeUsuario(registro);
         
         return usuario;

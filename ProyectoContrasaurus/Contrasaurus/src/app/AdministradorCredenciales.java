@@ -9,7 +9,7 @@ import java.util.ArrayList;
  *
  * @author pirulo
  */
-public class CifradorTodasCredenciales {
+public class AdministradorCredenciales {
     private ArrayList<CifradorCredencial> cifradores;
 
     private ArrayList<CifradorCredencial> getCifradores() {
@@ -20,7 +20,7 @@ public class CifradorTodasCredenciales {
         this.cifradores = cifradores;
     }
 
-    protected CifradorTodasCredenciales(ArrayList<CredencialAlmacenada> credenciales, String clave){
+    public AdministradorCredenciales(ArrayList<CredencialAlmacenada> credenciales, String clave){
         
         for(CredencialAlmacenada cred : credenciales){
             CifradorCredencial cifrador = new CifradorCredencial(cred, clave, true, true);

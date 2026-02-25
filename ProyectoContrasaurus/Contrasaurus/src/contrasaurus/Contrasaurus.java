@@ -8,31 +8,19 @@ package contrasaurus;
 
 import GUI.*;
 
-import app.CredencialAlmacenada;
-import app.DatosCredencial;
-import app.ETipoCifrado;
-import app.ConfigCredencial;
-import app.Database;
-
-//import java.util.Base64;
-
-
 /**
  *
  * @author Lorenzo Buero
  */
-public class Contrasaurus {
-
-    /**
-     * @param args the command line arguments
-     */
+public class Contrasaurus{
+    
     public static void main(String[] args) {
         
         
         
         
         
-        PantallaBuscarContrasenia pantalla = new PantallaBuscarContrasenia();
+        PantallaPrimeraVez pantalla = new PantallaPrimeraVez();
         pantalla.setVisible(true);
         pantalla.setLocationRelativeTo(null);
         

@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package database;
 
 import java.sql.Connection;
@@ -14,11 +10,66 @@ import app.IAlmacenable;
 
 /**
  *
- * @author pirulo
+ * @author Lorenzo Buero
  */
 public abstract sealed class Tabla_BBDD permits Credenciales_BBDD, Usuarios_BBDD{
     
+    
+    
+    
+     protected static void dropa(String tabla){
+        try {
+            String query = "DROP TABLE" + tabla;
+            Connection coneccion = getConeccion();
+            
+            PreparedStatement pStatement = coneccion.prepareStatement(query);
+            
+            
+            pStatement.executeQuery(); 
+        }
+        catch (SQLException ex) {
+            
+            System.out.println("Error al conectar a SQLite");
+            System.out.println(ex.getMessage());
+        
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     protected abstract String getNombreTabla(); 
+    
+    protected static void crearTabla(String query){
+        try {
+            Connection coneccion = getConeccion();
+            
+            PreparedStatement pStatement = coneccion.prepareStatement(query);
+            
+            
+            pStatement.executeQuery(); 
+        }
+        catch (SQLException ex) {
+            
+            System.out.println("Error al conectar a SQLite");
+            System.out.println(ex.getMessage());
+        
+        }
+    }
+    
+   
     
     private static Connection getConeccion() throws SQLException
     {
@@ -61,7 +112,7 @@ public abstract sealed class Tabla_BBDD permits Credenciales_BBDD, Usuarios_BBDD
     
     }
     
-    protected static ResultSet obtenerUno(String tabla, String buscado){
+    protected static ResultSet obtenerUnoPorID(String tabla, String buscado){
         String query = "SELECT * FROM " + tabla + " WHERE ID = ?";
         ResultSet resultado = null;
         
@@ -83,7 +134,7 @@ public abstract sealed class Tabla_BBDD permits Credenciales_BBDD, Usuarios_BBDD
         return resultado;
     }
 
-    protected abstract ResultSet obtenerUno(String buscado);
+    protected abstract ResultSet obtenerUnoPorID(String buscado);
     
     
     //AGREGAR

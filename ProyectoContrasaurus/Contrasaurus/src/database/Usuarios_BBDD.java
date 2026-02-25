@@ -10,9 +10,20 @@ import java.sql.ResultSet;
 
 
 public final class Usuarios_BBDD extends Tabla_BBDD{
+    
+    protected void drop(){
+        dropa(getNombreTabla());
+    }
 
     @Override
     protected String getNombreTabla(){return "usuarios";}
+    
+    protected void crearTablaUsuarios(){
+        String query ="CREATE TABLE usuarios (ID TEXT PRIMARY KEY, nombre_usuario TEXT NOT NULL, "
+                + "clave_hasheada TEXT NOT NULL, sal BLOB NOT NULL, repeticiones INTEGER NOT NULL);";
+        
+        crearTabla(query);
+    }
     
     @Override
     protected ResultSet obtenerTodos(){
@@ -20,10 +31,9 @@ public final class Usuarios_BBDD extends Tabla_BBDD{
     }
    
     @Override
-    protected ResultSet obtenerUno(String buscado){
-        return obtenerUno(getNombreTabla(), buscado);
+    protected ResultSet obtenerUnoPorID(String buscado){
+        return obtenerUnoPorID(getNombreTabla(), buscado);
     }
-            
                 
     protected boolean agregarUno(Usuario usuario)
     {

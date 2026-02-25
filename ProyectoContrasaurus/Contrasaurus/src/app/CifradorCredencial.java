@@ -15,7 +15,7 @@ public class CifradorCredencial implements Runnable{
     private boolean quieroCifrarDefault;
     private boolean quieroCifrarOculto;
 
-    protected CredencialAlmacenada getCredencial() {
+    public CredencialAlmacenada getCredencial() {
         return credencial;
     }
 
@@ -99,21 +99,21 @@ public class CifradorCredencial implements Runnable{
             return null;
         } else {
             CifDefault descifrador = new CifDefault(this.getClave(), this.getCredencial().getParametros());
+            String TEXTO_OCULTADOR = "x-x-x-x-x";
             
-            
-            String sitio = this.getSitio();
+            String sitio = TEXTO_OCULTADOR;
             if (this.quieroCifrarOculto || this.getCredencial().getConfig().getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT)) {
                 sitio = descifrador.descifrar(this.getSitio());
             }
             
             
-            String nombreCuenta = this.getNCuenta();
+            String nombreCuenta = TEXTO_OCULTADOR;
             if (this.quieroCifrarOculto || this.getCredencial().getConfig().getCifradoNombreCuenta().equals(ETipoCifrado.CIFRADO_DEFAULT)) {
                 nombreCuenta = descifrador.descifrar(this.getNCuenta());
             }
             
             
-            String contra = this.getContra();
+            String contra = TEXTO_OCULTADOR;
             if (this.quieroCifrarOculto || this.getCredencial().getConfig().getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT)) {   
                 contra = descifrador.descifrar(this.getContra());
             }

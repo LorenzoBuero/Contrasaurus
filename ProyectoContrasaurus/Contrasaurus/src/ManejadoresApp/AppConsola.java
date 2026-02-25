@@ -2,7 +2,7 @@
  *
  * @author pirulo
  */
-package appConsola;
+package ManejadoresApp;
 
 import java.util.ArrayList;
 import java.util.Scanner;

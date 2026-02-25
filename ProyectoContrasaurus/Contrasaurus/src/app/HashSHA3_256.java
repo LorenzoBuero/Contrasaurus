@@ -34,6 +34,7 @@ public class HashSHA3_256 implements IHasheador{
             //throw new Exception(e); //esto da error
             System.out.println("OCURRIO UN ERROR AL CREAR EL SHA-256");//volvería a tirar la excepcion, pero no me deja
         }
+        return retorno;
     }
     
 }

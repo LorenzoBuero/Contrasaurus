@@ -42,15 +42,20 @@ public class ConfigCredencial {
     protected void setCifradoContra(ETipoCifrado cifradoContra) {
         this.cifradoContra = cifradoContra;
     }
-    
+    public boolean contraseniaOculta(){
+        return this.getCifradoContra().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO);
+    }
+    public boolean sitioOculto(){
+        return this.getCifradoNombreCuenta().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO);
+    }
+    public boolean nombreCuentaOculto(){
+        return this.getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO);
+    }
     protected boolean tieneDatosOcultos(){
     
         boolean retorno = false;
-        if(this.getCifradoContra().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO) ||
-                this.getCifradoNombreCuenta().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO) ||
-                this.getCifradoSitio().equals(ETipoCifrado.CIFRADO_DEFAULT_OCULTO)){
-            retorno = true;
-        
+        if(this.contraseniaOculta() || this.nombreCuentaOculto() || this.nombreCuentaOculto()){
+            retorno = true; 
         }
         return retorno;
     
@@ -64,19 +69,36 @@ public class ConfigCredencial {
         this.setCifradoNombreCuenta(cifradoNombreCuenta);
         this.setCifradoContra(cifradoContra);
     }
-    public ConfigCredencial(char cifradoSitio, char cifradoNombreCuenta, char cifradoContra) throws InstantiationException{
+    public ConfigCredencial(char cifradoSitio, char cifradoNombreCuenta, char cifradoContra) throws TipoCifradoInvalidoException{
         try{
             this.setCifradoSitio(mapearConfCifrado(cifradoSitio));
             this.setCifradoNombreCuenta(mapearConfCifrado(cifradoNombreCuenta));
             this.setCifradoContra(mapearConfCifrado(cifradoContra));
         }catch(TipoCifradoInvalidoException ex){
-            throw new InstantiationException(ex.getMessage());
+            throw new TipoCifradoInvalidoException(ex.getMessage());
         }
     
     }
+    public ConfigCredencial(boolean sitioOculto, boolean nombreCuentaOculto, boolean contraOculto){
+        
+            char cifradoSitio = 'd';
+            char cifradoNombreCuenta = 'd';
+            char cifradoContra = 'd';
+
+            if(sitioOculto){cifradoSitio = 'o';}
+            if(nombreCuentaOculto){cifradoNombreCuenta = 'o';}
+            if(contraOculto){cifradoContra = 'o';}
+        try{
+            this.setCifradoSitio(mapearConfCifrado(cifradoSitio));
+            this.setCifradoNombreCuenta(mapearConfCifrado(cifradoNombreCuenta));
+            this.setCifradoContra(mapearConfCifrado(cifradoContra));
+        }catch(TipoCifradoInvalidoException ex){
+            System.out.println("Imposible");
+        }
+    }
     //-------------------------METODOS---------------------------
     
-    private static ETipoCifrado mapearConfCifrado(char conf) throws TipoCifradoInvalidoException{//crear excepcion personalizada
+    private static ETipoCifrado mapearConfCifrado(char conf) throws TipoCifradoInvalidoException{
         
         conf = Character.toLowerCase(conf);
         ETipoCifrado retorno;

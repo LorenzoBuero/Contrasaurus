@@ -10,10 +10,30 @@ import java.sql.ResultSet;
 
 public final class Credenciales_BBDD extends Tabla_BBDD{
     
+    String nombreUsuario;
+    protected void drop(){
+        dropa(getNombreTabla());
+    }
+    
+    public Credenciales_BBDD(String nombre){
+        this.nombreUsuario = nombre;
+    }
+    
+    
+    
+    
+    
+    
     @Override
     protected String getNombreTabla(){return "credenciales";}
     
-    
+    protected void crearTablaCredenciales(String nombreUsuario){
+        String query ="CREATE TABLE " + this.getNombreTabla() + " (ID TEXT PRIMARY KEY, sitio TEXT NOT NULL, nombre_cuenta TEXT NOT NULL, "
+                + "contra TEXT NOT NULL, iv BLOB NOT NULL, sal BLOB NOT NULL, repeticiones INTEGER NOT NULL, "
+                + "conf_cred TEXT NOT NULL);";
+        
+        crearTabla(query);
+    }
     
     @Override
     protected ResultSet obtenerTodos()
@@ -23,8 +43,8 @@ public final class Credenciales_BBDD extends Tabla_BBDD{
     }
    
     @Override
-    protected ResultSet obtenerUno(String buscado){
-        return obtenerUno(this.getNombreTabla(), buscado);
+    protected ResultSet obtenerUnoPorID(String buscado){
+        return obtenerUnoPorID(this.getNombreTabla(), buscado);
     
     }
             

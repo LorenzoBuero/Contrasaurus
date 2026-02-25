@@ -5,6 +5,7 @@ import app.DatosCredencial;
 import app.ConfigCredencial;
 import app.ParametrosDelCifrado;
 import app.ETipoCifrado;
+import excepciones.TipoCifradoInvalidoException;
 
 import java.util.ArrayList;
 import java.sql.ResultSet;
@@ -15,8 +16,24 @@ import java.sql.SQLException;
  */
 public abstract class ModeloCredenciales {
     
-    private static Credenciales_BBDD getBBDD(){ return new Credenciales_BBDD();}
     
+    public static void drop(){
+        getBBDD().drop();
+    }
+    
+    
+    
+    
+    
+    
+    
+    private static Credenciales_BBDD getBBDD(){ return new Credenciales_BBDD("pio");}
+    
+    
+    public static void crearTablaCredencial(String nombreTabla){
+        getBBDD().crearTablaCredenciales(nombreTabla);
+    
+    }
     
     private static CredencialAlmacenada mapeadorDeCredencialAlmacenada(ResultSet registro){
         
@@ -43,7 +60,7 @@ public abstract class ModeloCredenciales {
         }catch(SQLException ex){
             System.out.println("ERROR EN SQLite");
             System.out.println(ex.getMessage());
-        }catch(InstantiationException ex){
+        }catch(TipoCifradoInvalidoException ex){
             System.out.println("ERROR, DATOS SOBRE EL CIFRADO DAÑADOS");
             System.out.println(ex.getMessage());
         }
@@ -57,26 +74,28 @@ public abstract class ModeloCredenciales {
         
         
         ResultSet registros = getBBDD().obtenerTodos();
-        
-        ArrayList<CredencialAlmacenada> credenciales = new ArrayList<>(); 
-        
-        try{
-            while(registros.next()){
-                CredencialAlmacenada credencial = mapeadorDeCredencialAlmacenada(registros);
-                
-                credenciales.add(credencial);
-        
+        ArrayList<CredencialAlmacenada> credenciales = new ArrayList<>();
+        if(registros!=null){
+         
+
+            try{
+                while(registros.next()){
+                    CredencialAlmacenada credencial = mapeadorDeCredencialAlmacenada(registros);
+
+                    credenciales.add(credencial);
+
+                }
+            }catch(SQLException ex){
+                System.out.println("ERROR EN SQLite");
+                System.out.println(ex.getMessage());
             }
-        }catch(SQLException ex){
-            System.out.println("ERROR EN SQLite");
-            System.out.println(ex.getMessage());
         }
         return credenciales;
     }
     
     public static CredencialAlmacenada obtenerUnaCredencial(String ID){
         
-        ResultSet registro = getBBDD().obtenerUno(ID);
+        ResultSet registro = getBBDD().obtenerUnoPorID(ID);
         CredencialAlmacenada credencial = mapeadorDeCredencialAlmacenada(registro);
         
         return credencial;

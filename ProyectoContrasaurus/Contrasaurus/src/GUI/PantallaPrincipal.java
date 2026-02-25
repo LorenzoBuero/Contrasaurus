@@ -1,24 +1,36 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package GUI;
 
 /**
  *
  * @author pirulo
  */
+import java.awt.Point;
+
+import ManejadoresApp.ControladorApp;
+
 public class PantallaPrincipal extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PantallaPrincipal.class.getName());
 
-    int mouseX;
-    int mouseY;
+    private ControladorApp controlador;
    
+    
+    
     public PantallaPrincipal() {
         initComponents();
+       this.setVisible(true);
+    }
+    
+    public PantallaPrincipal(ControladorApp control, Point lugar){
+        this();
+        this.controlador = control;
+        this.setLocation(lugar);
+        this.controlador.actualizarCredenciales();
     }
 
+    
+    
+    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -41,20 +53,19 @@ public class PantallaPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
-        setPreferredSize(new java.awt.Dimension(800, 500));
         setResizable(false);
 
         fondo.setBackground(new java.awt.Color(204, 255, 204));
         fondo.setMinimumSize(new java.awt.Dimension(80, 160));
         fondo.setPreferredSize(new java.awt.Dimension(800, 500));
-        fondo.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                fondoMousePressed(evt);
-            }
-        });
         fondo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnAgregar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAgregar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnAgregarMouseClicked(evt);
+            }
+        });
 
         lblAgregar.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         lblAgregar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -78,6 +89,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         fondo.add(btnAgregar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 760, 140));
 
         btnBuscarOcultos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarOcultos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarOcultosMouseClicked(evt);
+            }
+        });
 
         lblBuscarOcultos.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         lblBuscarOcultos.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -103,6 +119,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         fondo.add(btnBuscarOcultos, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 180, 270, 140));
 
         btnBuscarDefaults.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnBuscarDefaults.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnBuscarDefaultsMouseClicked(evt);
+            }
+        });
 
         lblBuscarDefaults.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         lblBuscarDefaults.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -128,11 +149,16 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         fondo.add(btnBuscarDefaults, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 180, 470, 140));
 
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEliminarMouseClicked(evt);
+            }
+        });
 
         lblEliminar.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         lblEliminar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblEliminar.setText("Eliminar Cuenta");
-        lblEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        lblEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout btnEliminarLayout = new javax.swing.GroupLayout(btnEliminar);
         btnEliminar.setLayout(btnEliminarLayout);
@@ -154,6 +180,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         fondo.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 340, 220, 140));
 
         btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEditar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarMouseClicked(evt);
+            }
+        });
 
         lblEditar.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         lblEditar.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -179,6 +210,11 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         fondo.add(btnEditar, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 340, 360, 140));
 
         btnOpciones.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnOpciones.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOpcionesMouseClicked(evt);
+            }
+        });
 
         lblOpciones.setFont(new java.awt.Font("sansserif", 0, 24)); // NOI18N
         lblOpciones.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -218,12 +254,48 @@ public class PantallaPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void fondoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_fondoMousePressed
-        this.mouseX = evt.getX();
-        this.mouseY = evt.getY();
-    }//GEN-LAST:event_fondoMousePressed
+    private void btnAgregarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAgregarMouseClicked
+        this.controlador.setEstado("30");
+        PantallaAgregarEditarCuenta pantalla = new PantallaAgregarEditarCuenta(this.controlador, this.getLocation());
+        
+        this.dispose();
+    }//GEN-LAST:event_btnAgregarMouseClicked
 
+    private void btnBuscarOcultosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarOcultosMouseClicked
+        this.controlador.setEstado("50");
+        PantallaIngresarContrasenia pantalla = new PantallaIngresarContrasenia(this.controlador, this.getLocation());
+        
+        this.dispose();
+    }//GEN-LAST:event_btnBuscarOcultosMouseClicked
 
+    private void btnBuscarDefaultsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnBuscarDefaultsMouseClicked
+        this.controlador.setEstado("40");
+        PantallaBuscarContrasenia pantalla = new PantallaBuscarContrasenia(this.controlador, this.getLocation(), false);
+        
+        this.dispose();
+    }//GEN-LAST:event_btnBuscarDefaultsMouseClicked
+
+    private void btnEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEliminarMouseClicked
+        this.controlador.setEstado("60");
+        PantallaIngresarContrasenia pantalla = new PantallaIngresarContrasenia(this.controlador, this.getLocation());
+        
+        this.dispose();
+    }//GEN-LAST:event_btnEliminarMouseClicked
+
+    private void btnEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarMouseClicked
+        this.controlador.setEstado("70");
+        PantallaIngresarContrasenia pantalla = new PantallaIngresarContrasenia(this.controlador, this.getLocation());
+        
+        this.dispose();
+    }//GEN-LAST:event_btnEditarMouseClicked
+
+    private void btnOpcionesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOpcionesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnOpcionesMouseClicked
+
+    
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnAgregar;

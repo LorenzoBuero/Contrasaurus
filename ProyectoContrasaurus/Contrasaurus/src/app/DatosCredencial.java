@@ -63,7 +63,21 @@ public class DatosCredencial {
         }
         return false;
     }
+
+    @Override
+    public String toString(){
+    
+        String retorno = this.getSitio() + "   |   " + this.getNombreCuenta() + "   |   " + this.getContra();
+        return retorno;
+    } 
+
+
+
+
 }
+
+
+    
     //Credencial nueva, por ende crea un nuevo ID por su cuenta
     /*public void Credencial(String sitio, String nombreCuenta, String contra, ConfigCredencial tipoDeCifrado)
     {
